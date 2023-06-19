@@ -1,7 +1,7 @@
 ﻿@model AcademiControl.Models.Staff
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutPersonalizado.cshtml";
 }
 
 <!DOCTYPE html>
@@ -14,9 +14,9 @@
 <body>
 
 <div>
-    <h4>Staff</h4>
+    <h4>Visualizar Integrante</h4>
     <hr />
-    <dl class="row">
+    <dl class="row" >
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -38,8 +38,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        <button class="btn btn-primary">
+            <a asp-action="Edit" class="text-white"  asp-route-id="@Model?.Id">Editar</a>
+        </button>
+        <button class="btn btn-primary">
+            <a asp-action="Index" class="text-white">Voltar</a>
+        </button>
 </div>
 </body>
 </html>

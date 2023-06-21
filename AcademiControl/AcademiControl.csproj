@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_Layout - Cópia.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Shared\_Layout - Cópia.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.18">
       <PrivateAssets>all</PrivateAssets>

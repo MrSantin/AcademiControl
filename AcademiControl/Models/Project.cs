@@ -17,6 +17,7 @@ namespace AcademiControl.Models
         public List<Activity> Activities { get; set; }
 
         [Display(Name = "Responsável")]
+        
         public Staff ProjectOwner { get; set; }
     }
 }

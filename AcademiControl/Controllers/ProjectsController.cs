@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademiControl.Context;
 using AcademiControl.Models;
+using AcademiControl.Commands.Projects;
+using AcademiControl.Handlers;
 
 namespace AcademiControl.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly DBContext _context;
+        private const string Bind = "Name,Description,OwnerId";
 
         public ProjectsController(DBContext context)
         {
@@ -48,24 +51,30 @@ namespace AcademiControl.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
+            //   var project = _context.Projects.Include(m => m.ProjectOwner);
+            // ViewData["OwnerList"] = new SelectList(_context.Staff, "Id", "Name"); // Criando lista para mostrar no frontend
+           
+            var ownerList = new SelectList(_context.Staff.ToList(), "Id", "Name");
+            // Atribua a lista ao ViewBag para torná-la disponível na view
+            ViewBag.OwnerList = ownerList;
+
+
             return View();
-        }
+
+       
+    }
+
+
 
         // POST: Projects/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Project project)
+        public async Task<IActionResult> Create([FromBody] CreateProjectCommand command, [FromServices] ProjectHandlers handlers)
         {
-            if (ModelState.IsValid)
-            {
-                project.Id = Guid.NewGuid();
-                _context.Add(project);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project);
+            handlers.Handle(command);
+            return View();
         }
 
         // GET: Projects/Edit/5
@@ -89,7 +98,7 @@ namespace AcademiControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description")] Project project)
+        public async Task<IActionResult> Edit(Guid id, [Bind(Bind)] Project project)
         {
             if (id != project.Id)
             {

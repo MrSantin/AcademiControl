@@ -1,4 +1,5 @@
 using AcademiControl.Context;
+using AcademiControl.Handlers;
 using AcademiControl.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<DBContext>(options =>
 //    options.UseInMemoryDatabase(databaseName: "TestDatabase"));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddTransient<ProjectHandlers,ProjectHandlers>();
 
 var app = builder.Build();
 

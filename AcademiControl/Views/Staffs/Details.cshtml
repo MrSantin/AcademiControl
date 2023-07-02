@@ -14,7 +14,7 @@
 <body>
 
 <div>
-    <h4>Visualizar Integrante</h4>
+    <h4>Visualizando Integrante</h4>
     <hr />
     <dl class="row" >
         <dt class = "col-sm-2">
@@ -38,12 +38,27 @@
     </dl>
 </div>
 <div>
-        <button class="btn btn-primary">
-            <a asp-action="Edit" class="text-white"  asp-route-id="@Model?.Id">Editar</a>
-        </button>
-        <button class="btn btn-primary">
-            <a asp-action="Index" class="text-white">Voltar</a>
-        </button>
+       
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <button class="btn btn-primary">
+                        <a asp-action="Edit" class="text-white" asp-route-id="@Model?.Id">Editar</a>
+                    </button>
+                </div>
+
+            </td>
+            <td>
+                <div>
+                    <button class="btn btn-primary">
+                        <a asp-action="Index" class="text-white">Voltar</a>
+                    </button>
+                </div>
+         
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

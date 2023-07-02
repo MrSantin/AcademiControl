@@ -1,20 +1,20 @@
 ﻿@model AcademiControl.Models.Project
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutPersonalizado.cshtml";
 }
 
 <!DOCTYPE html>
 
 <html>
-<head>
+    <head>
     <meta name="viewport" content="width=device-width" />
     <title>Create</title>
 </head>
-<body>
+    <body>
 
-<h4>Project</h4>
-<hr />
+    <h4>Cadastrando Novo Projeto</h4>
+    <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -29,16 +29,32 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <br />
+
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input type="submit" value="Salvar" class="btn btn-danger" />
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <button class="btn btn-danger">
+                                <a asp-action="Index" class="text-white">Voltar</a>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+           
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

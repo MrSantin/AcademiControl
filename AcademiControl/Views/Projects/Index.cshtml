@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AcademiControl.Models.Project>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutPersonalizado.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,12 +12,19 @@
     <title>Index</title>
 </head>
 <body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <p>
+        <h1>Cadastro de Projetos</h1>
+        <br />
+
+        <button class="btn btn-danger" type="button">
+            <a asp-action="Create" class="text-white">Inserir</a>
+        </button>
+    </p>
+
+
 <table class="table">
     <thead>
-        <tr>
+            <tr class="bg-danger">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -37,9 +44,18 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                <button class="btn btn-danger" type="button">
+                    <a asp-action="Edit" class="text-white" asp-route-id="@item.Id">Editar</a>
+                </button>
+
+                <button class="btn btn-danger" type="button">
+                    <a asp-action="Details" class="text-white" asp-route-id="@item.Id">Visualizar</a>
+                </button>
+
+                <button class="btn btn-danger" type="button">
+                    <a asp-action="Delete" class="text-white" asp-route-id="@item.Id">Deletar</a>
+                </button>
             </td>
         </tr>
 }

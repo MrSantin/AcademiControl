@@ -14,7 +14,7 @@
 <body>
 
 <div>
-    <h4>Excluir Integrante</h4>
+    <h4>Excluindo Integrante</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -39,10 +39,27 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Deletar" class="btn btn-danger" />
-            <button class="btn btn-primary">
-                <a asp-action="Index" class="text-white">Voltar</a>
-            </button>
+
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <div>
+                                <input type="submit" value="Excluir" class="btn btn-primary" />
+                            </div>
+
+                        </td>
+                        <td>
+                            <div>
+                                <button class="btn btn-primary">
+                                    <a asp-action="Index" class="text-white">Voltar</a>
+                                </button>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
     </form>
 </div>
 </body>

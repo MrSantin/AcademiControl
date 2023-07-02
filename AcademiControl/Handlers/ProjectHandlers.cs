@@ -5,7 +5,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace AcademiControl.Handlers
 {
-    public class ProjectHandlers:CreateProjectCommand
+    public class ProjectHandlers
     {
         private readonly IRepository<Project> _repository;
         private readonly IRepository<Staff> _staffrepo;
@@ -34,6 +34,49 @@ namespace AcademiControl.Handlers
             catch (Exception error)
             {
                 
+                return error.Message;
+            }
+
+        }
+
+        public string Handle(UpdateProjectCommand command)
+        {
+            var project = _repository.GetByIdAsync(command.Id).Result;
+           
+            if (project == null)
+                return "Projeto não encontrado";
+
+
+            project.Description = command.ProjectDesciption;
+            project.Name = command.ProjectName;
+            project.ProjectOwner = Owner(command.ProjectOwner);
+            
+
+            try
+            {
+                _repository.UpdateAsync(project);
+                return "Projeto atualizado com sucesso";
+            }
+            catch (Exception error)
+            {
+
+                return error.Message;
+            }
+
+        }
+
+        public string Handle(DeleteProjectCommand command)
+        {
+
+            try
+            {
+                _repository.DeleteAsync(command.id);
+
+                return "Projeto excluido com sucesso";
+            }
+            catch (Exception error)
+            {
+
                 return error.Message;
             }
 

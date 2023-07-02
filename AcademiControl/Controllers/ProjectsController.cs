@@ -98,34 +98,10 @@ namespace AcademiControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(Bind)] Project project)
+        public async Task<IActionResult> Edit([FromBody] UpdateProjectCommand command, [FromServices] ProjectHandlers handlers)
         {
-            if (id != project.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProjectExists(project.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project);
+            handlers.Handle(command);
+            return View();
         }
 
         // GET: Projects/Delete/5
@@ -149,19 +125,9 @@ namespace AcademiControl.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed([FromBody] DeleteProjectCommand command, [FromServices] ProjectHandlers handlers)
         {
-            if (_context.Projects == null)
-            {
-                return Problem("Entity set 'DBContext.Projects'  is null.");
-            }
-            var project = await _context.Projects.FindAsync(id);
-            if (project != null)
-            {
-                _context.Projects.Remove(project);
-            }
-            
-            await _context.SaveChangesAsync();
+            handlers.Handle(command);
             return RedirectToAction(nameof(Index));
         }
 

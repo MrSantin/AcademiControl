@@ -39,7 +39,9 @@ namespace AcademiControl.Controllers
             }
 
             var project = await _context.Projects
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(x => x.ProjectOwner)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (project == null)
             {
                 return NotFound();
@@ -70,11 +72,10 @@ namespace AcademiControl.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromBody] CreateProjectCommand command, [FromServices] ProjectHandlers handlers)
         {
             handlers.Handle(command);
-            return View();
+            return View("Index");
         }
 
         // GET: Projects/Edit/5
@@ -85,11 +86,17 @@ namespace AcademiControl.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Projects.Include(x => x.ProjectOwner).FirstOrDefaultAsync(x => x.Id == id);
+
             if (project == null)
             {
                 return NotFound();
             }
+
+            var ownerList = new SelectList(_context.Staff.ToList(), "Id", "Name");
+            // Atribua a lista ao ViewBag para torná-la disponível na view
+            ViewBag.OwnerList = ownerList;
+
             return View(project);
         }
 
@@ -97,7 +104,6 @@ namespace AcademiControl.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromBody] UpdateProjectCommand command, [FromServices] ProjectHandlers handlers)
         {
             handlers.Handle(command);

@@ -1,43 +1,36 @@
 ﻿@model AcademiControl.Models.Project
-<script src="~/js/projects/create.js"></script>
 @{
     Layout = "~/Views/Shared/_LayoutPersonalizado.cshtml";
 }
 
 <!DOCTYPE html>
-
 <html>
-    <head>
+<head>
     <meta name="viewport" content="width=device-width" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/projects/Create.js"></script>
     <title>Create</title>
 </head>
-    <body>
-
+<body>
     <h4>Cadastrando Novo Projeto</h4>
     <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form >
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input id= "Name" asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input id= "Description" asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input id="Name" asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input id="Description" asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
 
-            <!--Pegando lista de integrantes-->
-            <div class="form-group">
+                <div class="form-group">
                     <label asp-for="ProjectOwner" class="control-label"></label>
-                   
-                   @*<select id="OwnerId" asp-for="ProjectOwner" class="form-control" asp-items="ViewBag.OwnerList"> 
-                        <option value=""> Selecione um integrante</option>
-                    </select>*@
-
                     <select id="OwnerId" asp-for="ProjectOwner" class="form-control">
                         <option value="">Selecione um integrante</option>
                         @foreach (var item in ViewBag.OwnerList)
@@ -45,40 +38,34 @@
                             <option value="@item.Value">@item.Text</option>
                         }
                     </select>
+                </div>
 
-            </div>
+                <br />
 
-           
-            <br />
-
-            <table>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                                <button class="btn btn-danger" type="button" id="criar">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="button" id="btnSubmit">
                                     Criar
                                 </button>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <button class="btn btn-danger">
-                                <a asp-action="Index" class="text-white">Voltar</a>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            
-           
-
-        </form>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <button class="btn btn-warning">
+                                    <a asp-action="Index" class="text-white">Voltar</a>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
-</div>
 
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

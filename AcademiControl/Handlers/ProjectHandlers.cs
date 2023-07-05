@@ -19,7 +19,7 @@ namespace AcademiControl.Handlers
         {
             var project = new Project() {
                 Id = new Guid(),
-                Description = command.ProjectDesciption,
+                Description = command.ProjectDescription,
                 Name = command.ProjectName,
                 ProjectOwner = Owner(command.ProjectOwner)
             };
@@ -47,7 +47,7 @@ namespace AcademiControl.Handlers
                 return "Projeto não encontrado";
 
 
-            project.Description = command.ProjectDesciption;
+            project.Description = command.ProjectDescription;
             project.Name = command.ProjectName;
             project.ProjectOwner = Owner(command.ProjectOwner);
             

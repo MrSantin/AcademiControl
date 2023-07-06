@@ -1,4 +1,4 @@
-﻿@model AcademiControl.Models.Activity
+﻿@model AcademiControl.Models.Activity;
 
 @{
     Layout = "~/Views/Shared/_LayoutPersonalizado.cshtml";
@@ -7,10 +7,12 @@
 <!DOCTYPE html>
 
 <html>
-<head>
+<header>
     <meta name="viewport" content="width=device-width" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/Activities/Create.js"></script>
     <title>Create</title>
-</head>
+</header>
 <body>
 
 <h4>Cadastrando Nova Atividade</h4>
@@ -21,44 +23,49 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" id = "Name"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control" id="Description"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BeginDate" class="control-label"></label>
-                <input asp-for="BeginDate" class="form-control" />
+                <input asp-for="BeginDate" class="form-control" id="BeginDate"/>
                 <span asp-validation-for="BeginDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control" id="EndDate" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DeliveryDate" class="control-label"></label>
-                <input asp-for="DeliveryDate" class="form-control" />
+                <input asp-for="DeliveryDate" class="form-control" id="DeliveryDate"/>
                 <span asp-validation-for="DeliveryDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
+                    <select asp-for="Status" asp-items="@Html.GetEnumSelectList<ActivityStatus>()" class="form-control" id="Status">
+                        @*<option value="Completed">Finalizado</option>
+                        <option value="Pending">Pendente</option>
+                        <option value="Delayed">Atrasado</option>
+                        <option value="Cancelled">Cancelado</option>*@
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
              <table>
                 <tr>
                     <td>
                         <div class="form-group">
-                            <input type="submit" value="Salvar" class="btn btn-success" />
+                                <input type="button" value="Salvar" class="btn btn-success" id="btnSubmit" />
                         </div>
                     </td>
                     <td>
                         <div>
-                            <button class="btn btn-success">
+                            <button class="btn btn-success" >
                                 <a asp-action="Index" class="text-white">Voltar</a>
                             </button>
                         </div>

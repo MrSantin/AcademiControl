@@ -25,6 +25,8 @@ builder.Services.AddDbContext<DBContext>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddTransient<ProjectHandlers,ProjectHandlers>();
+builder.Services.AddTransient<ActivitiesHandlers, ActivitiesHandlers>();
+
 
 var app = builder.Build();
 

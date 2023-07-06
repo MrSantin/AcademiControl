@@ -22,7 +22,7 @@ namespace AcademiControl.Models
         [Display(Name = "Data de Entrega")]
         public DateTime DeliveryDate { get; set; }
 
-        public TaskStatus Status { get; set; }
+        public ActivityStatus Status { get; set; }
 
         [Display(Name = "Responsável")]
         public Staff Owner { get; set; }
@@ -35,7 +35,7 @@ namespace AcademiControl.Models
         //public List<byte[]>? Document { get; set; }
     }
 
-    public enum TaskStatus
+    public enum ActivityStatus
     {
         Completed,
         Pending,

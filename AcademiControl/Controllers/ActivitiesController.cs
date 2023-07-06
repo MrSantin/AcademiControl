@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademiControl.Context;
 using AcademiControl.Models;
+using AcademiControl.Commands.Projects;
+using AcademiControl.Handlers;
+using AcademiControl.Commands.Activities;
 
 namespace AcademiControl.Controllers
 {
@@ -55,17 +58,11 @@ namespace AcademiControl.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,BeginDate,EndDate,DeliveryDate,Status")] Activity activity)
+
+        public async Task<IActionResult> Create([FromBody] CreateActivityCommand command, [FromServices] ActivitiesHandlers handlers)
         {
-            if (ModelState.IsValid)
-            {
-                activity.Id = Guid.NewGuid();
-                _context.Add(activity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(activity);
+            handlers.Handle(command);
+            return View("Index");
         }
 
         // GET: Activities/Edit/5
@@ -88,36 +85,12 @@ namespace AcademiControl.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,BeginDate,EndDate,DeliveryDate,Status")] Activity activity)
+        public async Task<IActionResult> Edit([FromBody] UpdateActivityCommand command, [FromServices] ActivitiesHandlers handlers)
         {
-            if (id != activity.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(activity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActivityExists(activity.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(activity);
+            handlers.Handle(command);
+            return View();
         }
+
 
         // GET: Activities/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -139,23 +112,12 @@ namespace AcademiControl.Controllers
 
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+
+        public async Task<IActionResult> DeleteConfirmed([FromBody] DeleteActivityCommand command, [FromServices] ActivitiesHandlers handlers)
         {
-            if (_context.Activities == null)
-            {
-                return Problem("Entity set 'DBContext.Activities'  is null.");
-            }
-            var activity = await _context.Activities.FindAsync(id);
-            if (activity != null)
-            {
-                _context.Activities.Remove(activity);
-            }
-            
-            await _context.SaveChangesAsync();
+            handlers.Handle(command);
             return RedirectToAction(nameof(Index));
         }
-
         private bool ActivityExists(Guid id)
         {
           return (_context.Activities?.Any(e => e.Id == id)).GetValueOrDefault();

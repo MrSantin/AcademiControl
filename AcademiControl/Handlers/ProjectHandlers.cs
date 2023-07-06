@@ -18,7 +18,7 @@ namespace AcademiControl.Handlers
         public string Handle(CreateProjectCommand command)
         {
             var project = new Project() {
-                Id = new Guid(),
+                Id =  Guid.NewGuid(),
                 Description = command.ProjectDescription,
                 Name = command.ProjectName,
                 ProjectOwner = Owner(command.ProjectOwner)

@@ -5,7 +5,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace AcademiControl.Handlers
 {
-    public class ProjectHandlers
+    public class ProjectHandlers : IHandler<CreateProjectCommand>, IHandler<UpdateProjectCommand>, IHandler<DeleteProjectCommand>
     {
         private readonly IRepository<Project> _repository;
         private readonly IRepository<Staff> _staffrepo;

@@ -13,6 +13,7 @@ using AcademiControl.Commands.Activities;
 
 namespace AcademiControl.Controllers
 {
+    [Route("[controller]/[action]")]
     public class ActivitiesController : Controller
     {
         private readonly DBContext _context;
@@ -25,9 +26,9 @@ namespace AcademiControl.Controllers
         // GET: Activities
         public async Task<IActionResult> Index()
         {
-              return _context.Activities != null ? 
-                          View(await _context.Activities.ToListAsync()) :
-                          Problem("Entity set 'DBContext.Activities'  is null.");
+            return _context.Activities != null ?
+                        View(await _context.Activities.ToListAsync()) :
+                        Problem("Entity set 'DBContext.Activities'  is null.");
         }
 
         // GET: Activities/Details/5
@@ -51,15 +52,27 @@ namespace AcademiControl.Controllers
         // GET: Activities/Create
         public IActionResult Create()
         {
-            return View();
+            var activity = new Activity()
+            {
+                Name = $"Nome {TimeOnly.FromDateTime(DateTime.Now)}",
+                Description = $"Descricao {TimeOnly.FromDateTime(DateTime.Now)}",
+                BeginDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                DeliveryDate = DateTime.Now.AddDays(2),
+                Status = ActivityStatus.Pending
+            };
+            var ownerList = new SelectList(_context.Staff.ToList(), "Id", "Name");
+            // Atribua a lista ao ViewBag para torná-la disponível na view
+            ViewBag.OwnerList = ownerList;
+
+            return View(activity);
         }
 
         // POST: Activities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public async Task<IActionResult> Create([FromBody] CreateActivityCommand command, [FromServices] ActivitiesHandlers handlers)
+        public IActionResult Create([FromBody] CreateActivityCommand command, [FromServices] ActivitiesHandlers handlers)
         {
             handlers.Handle(command);
             return View("Index");
@@ -120,7 +133,7 @@ namespace AcademiControl.Controllers
         }
         private bool ActivityExists(Guid id)
         {
-          return (_context.Activities?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Activities?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

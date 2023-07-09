@@ -12,15 +12,12 @@ namespace AcademiControl.Commands.Activities
         public DateTime ActivityBeginDate { get; set; }
         public DateTime ActivityEndDate { get; set; }
         public DateTime ActivityDeliveryDate { get; set; }
-
-        public ActivityStatus ActivityStatus { get; set; }
-
-        //[JsonIgnore]
-        //public Staff ActivityOwner { get; set; }
-        //[JsonIgnore]
-        //public List<Staff>? ActivityStaff { get; set; }
-        //[JsonIgnore]
-        //public List<Message>? ActivityMessage { get; set; }
+        public int ActivityStatus { get; set; }
+        public Guid ActivityOwner { get; set; }
+        [JsonIgnore]
+        public List<Guid>? ActivityStaff { get; set; }
+        [JsonIgnore]
+        public List<Guid>? ActivityMessage { get; set; }
 
     }
 }
